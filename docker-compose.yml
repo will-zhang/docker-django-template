@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  web:
+    restart: always
+    build: ./web/
+    expose:
+      - "8000"
+    links:
+      - postgres:postgres
+    env_file: env
+    volumes:
+      - ./web:/code
+    command: /usr/local/bin/gunicorn --timeout 180 --access-logfile=- mysite.wsgi -w 2 -b :8000
+  
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "80:80"
+    volumes_from:
+      - web
+    links:
+      - web:web
+
+  postgres:
+    restart: always
+    image: postgres:latest
+    volumes:
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./db:/var/lib/postgresql
+    env_file:
+      - env
+    expose:
+      - "5432"
