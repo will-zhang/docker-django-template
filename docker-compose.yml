@@ -28,7 +28,6 @@ services:
     image: postgres:latest
     volumes:
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./db:/var/lib/postgresql
     env_file:
       - env
     expose:
