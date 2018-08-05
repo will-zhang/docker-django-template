@@ -8,3 +8,10 @@ postgres： 数据库服务器
 docker-compose build
 docker-compose run --rm web django-admin startproject mysite .
 docker-compose up
+
+其他脚本
+docker-compose run --rm web python manage.py startapp myapp
+docker-compose run --rm web python manage.py makemigrations
+docker-compose run --rm web python manage.py migrate
+docker-compose run --rm web python manage.py createsuperuser
+docker-compose run --rm web python manage.py collectstatic
